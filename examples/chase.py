@@ -98,10 +98,14 @@ class ChaseAgent(OpencogAgent):
         # Create Action Space. The set of allowed actions an agent can take.
         # TODO take care of action parameters.
         action_space = {ExecutionLink(SchemaNode(a)) for a in env.action_names}
+        # print('action_space::::::::::::::::::::\n', action_space,'\nend_action_space::::::::::::::::::::')
 
         # Create Goal
         pgoal = EvaluationLink(PredicateNode("Reward"), NumberNode("1"))
         ngoal = EvaluationLink(PredicateNode("Reward"), NumberNode("0"))
+
+        # print('pgoal::::::::::::::::::::\n', pgoal,'\nend_pgoal::::::::::::::::::::')
+
 
         # Call super ctor
         OpencogAgent.__init__(self, env, atomspace, action_space, pgoal, ngoal)
@@ -137,21 +141,25 @@ if __name__ == "__main__":
     ca = ChaseAgent(wrapped_env, atomspace)
 
     # Training/learning loop
-    lt_iterations = 2  # Number of learning-training iterations
-    lt_period = 200  # Duration of a learning-training iteration
+    lt_iterations = 1  # Number of learning-training iterations
+    lt_period = 4  # Duration of a learning-training iteration
     for i in range(lt_iterations):
         wrapped_env.restart()
+        # print('\ncalling reset_action_counter::::::::::::::::::::::\n')
         ca.reset_action_counter()
+        # print('\nend calling reset_action_counter::::::::::::::::::::::\n')
         par = ca.accumulated_reward  # Keep track of the reward before
         # Discover patterns to make more informed decisions
         agent_log.info("Start learning ({}/{})".format(i + 1, lt_iterations))
+        print(time.strftime("%H:%M:%S", time.gmtime()))
         ca.learn()
         # Run agent to accumulate percepta
         agent_log.info("Start training ({}/{})".format(i + 1, lt_iterations))
         for j in range(lt_period):
             ca.control_cycle()
             wrapped_env.render()
-            time.sleep(0.1)
+            print("j=",j)
+            time.sleep(1)
             log.info("cycle_count = {}".format(ca.cycle_count))
         nar = ca.accumulated_reward - par
         agent_log.info(

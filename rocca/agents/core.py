@@ -151,7 +151,12 @@ class OpencogAgent:
         # scheme_eval(self.atomspace, "(pln-log-atomspace)")
 
     def reset_action_counter(self):
+        # try:
+        #     print('\nbefore resetting action counter::::::::::::::::::::::\n',self.action_counter,'\n')
+        # except:
+        #     pass
         self.action_counter = Counter({action: 0 for action in self.action_space})
+        # print('\nafter resetting action counter::::::::::::::::::::::\n',self.action_counter,'\n')
 
     def insert_to_percepta_record(self, timed_atom: Atom, i: int):
         """Insert a timestamped atom into self.percepta_record.
