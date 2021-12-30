@@ -168,6 +168,8 @@ if __name__ == "__main__":
     # lt_iterations = 1  # Number of learning-training iterations
     lt_period = 200  # Duration of a learning-training iteration
     # lt_period = 4  # Duration of a learning-training iteration
+    # wrapped_env.restart()
+    # ca.reset_action_counter()
     for i in range(lt_iterations):
         print('lt_iterations = ',i)
         wrapped_env.restart()
