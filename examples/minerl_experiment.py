@@ -1,9 +1,12 @@
 # Experiments with minerl
 
 import minerl
+from minerl.env.malmo import InstanceManager
 import gym
 
 import time
+
+import subprocess
 
 def exp():
 
@@ -12,6 +15,20 @@ def exp():
     obs = env.reset()
     done = False
     net_reward = 0
+
+    # Get pid of minecraft instance
+    process = subprocess.Popen('ps aux'.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+    pid_minecraft = 0
+    for line in output.decode("utf-8").split('\n'):
+        if 'minerl.utils' in line:
+            print(line)
+            pid_minecraft = line.split()[1]
+    print('pid of minecraft instance is', pid_minecraft)
+
+
+
+
 
     while not done:
 
