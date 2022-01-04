@@ -41,7 +41,8 @@ def exp():
              episode=args.episode, resync=args.resync)
 
     #Shows the action space available in the env
-    print(env.action_space)
+    print('action space\n',env.action_space)
+    print('observation space \n',env.observation_space)
 
     for i in range(args.episodes):
         print("reset " + str(i))
