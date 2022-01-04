@@ -1,4 +1,5 @@
 # Experiments with minerlenv
+# To run: python3 minerlenv_experiment.py --mission ../../malmo/MalmoEnv/missions/mobchase_single_agent.xml --port 9000 --episodes 10 --sleep_time 1
 
 import malmoenv
 import argparse
