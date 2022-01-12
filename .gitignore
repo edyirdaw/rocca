@@ -40,6 +40,10 @@ tutorial/*.html
 .eggs
 .tox
 
+# Misc files
+*.jpg
+*.pdf
+
 # PyCharm project files
 .idea
 vizdoom.ini
