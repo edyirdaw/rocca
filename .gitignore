@@ -43,6 +43,7 @@ tutorial/*.html
 # Misc files
 *.jpg
 *.pdf
+*.svg
 
 # PyCharm project files
 .idea
