@@ -23,14 +23,14 @@ def viz():
     5 -> 4 [label="nsubj"]
     }
     """
-    s = Source(temp, filename="visualize_atoms/test.gv", format="svg")
+    s = Source(temp, filename="test.gv", format="svg")
     s.view()
 
 def viz_2 ():
     from graphviz import Source
-    # path = 'visualize_atoms/test.gv'
-    # path = 'visualize_atoms/test_2.gv'
-    path = 'visualize_atoms/atoms.gv'
+    # path = 'test.gv'
+    # path = 'test_2.gv'
+    path = 'atoms.gv'
     s = Source.from_file(path, format="jpg")
     s.view()
 
