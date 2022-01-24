@@ -5,12 +5,16 @@ from opencog.atomspace import AtomSpace
 from opencog.utilities import initialize_opencog
 from opencog.scheme import scheme_eval
 
+# Endpoint configuration
+# To allow public access, set to 0.0.0.0; for local access, set to 127.0.0.1
+IP_ADDRESS = '127.0.0.1'
+PORT = 5000
 
-def start_rest_api_server():
+atomspace = AtomSpace()
+initialize_opencog(atomspace)
+scheme_eval(atomspace, "(use-modules (opencog pln))")
 
-    atomspace = AtomSpace()
-    initialize_opencog(atomspace)
-    scheme_eval(atomspace, "(use-modules (opencog pln))")
+def load_atoms():
 
     """
     EvaluationLink(
@@ -79,10 +83,12 @@ def start_rest_api_server():
     scheme_eval(atomspace,exp)
 
 
-    api = RESTAPI(atomspace)
-    api.run(port=5000)
+
 
 
 if __name__ == "__main__":
 
-    start_rest_api_server()
+    load_atoms()
+
+    api = RESTAPI(atomspace)
+    api.run(host=IP_ADDRESS, port=PORT)
