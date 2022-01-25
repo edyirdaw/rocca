@@ -92,8 +92,6 @@ def load_atoms():
 
 
 
-
-
 if __name__ == "__main__":
 
     load_atoms()

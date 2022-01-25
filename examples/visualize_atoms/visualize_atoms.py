@@ -1,4 +1,4 @@
-# Atoms visualizer
+# Atoms visualizer with graphviz/dot
 
 from graphviz import Source
 
@@ -27,7 +27,7 @@ def viz():
     s.view()
 
 def viz_2 ():
-    from graphviz import Source
+
     # path = 'test.gv'
     # path = 'test_2.gv'
     path = 'atoms.gv'
