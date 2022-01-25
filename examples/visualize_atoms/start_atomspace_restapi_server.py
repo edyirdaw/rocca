@@ -27,14 +27,26 @@ scheme_eval(atomspace, "(use-modules (opencog pln))")
 def load_atoms():
 
     """
-    EvaluationLink(
-        PredicateNode ("hold"),
-        ListLink(
-            ConceptNode ("self"),
-            ConceptNode ("Key")
+    exp = '''
+    (EvaluationLink
+        (PredicateNode "hold")
+        (ListLink
+            (ConceptNode "self")
+            (ConceptNode "Key")
         )
     )
+    '''
     """
+
+    """
+    exp = '''
+       (ListLink
+            (ConceptNode "self")
+            (ConceptNode "Key")
+        )
+    '''
+    """
+
 
     """
     exp = '''

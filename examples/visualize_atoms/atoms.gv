@@ -2,8 +2,9 @@
     rankdir="LR"
     edge [dir=forward]
     node [shape=oval] // plaintext
-    //node [shape=oval color=lightblue2 style=filled] // plaintext
+    // node [shape=oval color=lightblue2 style=filled] // plaintext
 
+    /*
     0 [label="" fixedsize=true width=0 height=0]
     0 -> 1 [label="Evaluation"]
     0 -> 4 [label=""]
@@ -14,8 +15,9 @@
     4 -> 3 [label="" dir=none]
     4 -> 2 [label="List" dir=none]
     }
+    */
 
-    /*
+
     0 [label="Predicate \"hold\""]
     0 -> 1 [label="Evaluation" dir=none]
     1 [label="" fixedsize=true width=0 height=0]
@@ -26,7 +28,7 @@
     5 -> 3 [label="List" dir=none]
     5 -> 2 [label="" dir=none]
     }
-    */
+
 
     /*
     0 [label="Predicate \"hold\""]
