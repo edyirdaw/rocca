@@ -1,11 +1,13 @@
 # Atomspace restapi service
 
 '''
+
 Once https://github.com/opencog/atomspace-restful is installed (tested with sha ca0fc3722568ebaeb30f0bd970bd7a5e3034b14c),
 the restapi service worked after
-1. Installing with pip, flask-restful-swagger = 0.20.2
+1. Installing with pip flask-restful-swagger==0.20.2
 2. Commenting out references to the attention bank used by atomspace-restful in the python bindings installed in the system files.
    The references are easily apparent when this restapi service is launched.
+
 '''
 
 from opencog.web.api.apimain import RESTAPI

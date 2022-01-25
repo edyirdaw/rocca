@@ -1,5 +1,12 @@
 # Atoms visualizer with graphviz/dot
 
+'''
+
+You will need to have the graphviz graph drawing software installed: sudo apt install graphviz
+Also, pip install graphviz==0.19.1
+
+'''
+
 from graphviz import Source
 
 
