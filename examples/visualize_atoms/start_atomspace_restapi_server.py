@@ -12,7 +12,7 @@ the restapi service worked after
 
 from opencog.web.api.apimain import RESTAPI
 from opencog.atomspace import AtomSpace
-from opencog.utilities import initialize_opencog
+from opencog.type_constructors import set_default_atomspace
 from opencog.scheme import scheme_eval
 
 # Endpoint configuration
@@ -21,7 +21,9 @@ IP_ADDRESS = '127.0.0.1'
 PORT = 5000
 
 atomspace = AtomSpace()
-initialize_opencog(atomspace)
+set_default_atomspace(atomspace)
+scheme_eval(atomspace, "(use-modules (opencog))")
+scheme_eval(atomspace, "(use-modules (opencog exec))")
 scheme_eval(atomspace, "(use-modules (opencog pln))")
 
 def load_atoms():
@@ -37,6 +39,7 @@ def load_atoms():
     )
     '''
     """
+
 
     """
     exp = '''
@@ -102,7 +105,39 @@ def load_atoms():
       ) ; [969510428e2996c2][3]
     '''
 
+    # exp = read_from_file('sample_hypergraph_2_trunc')
+
+
     scheme_eval(atomspace,exp)
+
+
+def read_from_file(file_to_read):
+    with open(file_to_read, 'r') as f:
+        content = f.read()
+    return content
+
+def atoms_exp():
+
+    print(type(atomspace))
+    print('Printing atomspace\n---------')
+    for atom in atomspace:
+        print(atom)
+        print(type(atom))
+        print('==========')
+        try:
+            print(type(atom.out[0]))
+        except:
+            print('No outgoing set')
+        print('==========')
+        print('---------')
+
+
+
+
+
+
+
+    exit(0)
 
 
 
@@ -110,5 +145,9 @@ if __name__ == "__main__":
 
     load_atoms()
 
+    atoms_exp()
+
     api = RESTAPI(atomspace)
     api.run(host=IP_ADDRESS, port=PORT)
+
+
