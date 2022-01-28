@@ -17,7 +17,6 @@ from opencog.type_constructors import set_default_atomspace
 from opencog.scheme import scheme_eval
 
 import re
-import traceback
 
 # Endpoint configuration
 # To allow public access, set to 0.0.0.0; for local access, set to 127.0.0.1
@@ -29,12 +28,8 @@ set_default_atomspace(atomspace)
 scheme_eval(atomspace, "(use-modules (opencog))")
 scheme_eval(atomspace, "(use-modules (opencog exec))")
 scheme_eval(atomspace, "(use-modules (opencog pln))")
+scheme_eval(atomspace, "(use-modules (opencog spacetime))")
 
-# atomspace_2 to hold TimeNodes instead of S/Zlinks
-atomspace_2 = AtomSpace()
-scheme_eval(atomspace_2, "(use-modules (opencog))")
-scheme_eval(atomspace_2, "(use-modules (opencog exec))")
-scheme_eval(atomspace_2, "(use-modules (opencog pln))")
 
 def load_atoms():
 
@@ -60,7 +55,7 @@ def load_atoms():
     '''
     """
 
-
+    """
     exp = '''
     (BackSequentialAndLink
         (SLink
@@ -85,110 +80,98 @@ def load_atoms():
         ) ; [9efce1dc8918c209][3]
       ) ; [969510428e2996c2][3]
     '''
+    """
 
-    """
     exp = '''
-    (BackSequentialAndLink
+    (BackPredictiveImplicationScopeLink
+      (VariableSet)
+      (SLink
+        (ZLink))
+      (BackSequentialAndLink
         (SLink
+         (Slink        
+          (ZLink)))
+        (BackSequentialAndLink
           (SLink
-          (ZLink (ConceptNode "Time")
-          )
-         ) ; [800fbffffffe8ce4][3]
-        ) ; [da5f815ba9d4009f][3]
-        (AndLink (stv 0.02 0.2)
-          (EvaluationLink (stv 0.39 0.2)
-            (PredicateNode "Pellet Position") ; [56e6ab0f525cb504][3]
-            (ConceptNode "Right Square") ; [6dd382acb6aa376e][3]
-          ) ; [bfafa25da890c502][3]
+            (ZLink))
+          (BackSequentialAndLink
+            (SLink
+              (ZLink))
+            (AndLink (stv 0.085 0.2)
+              (EvaluationLink (stv 0.585 0.2)
+                (PredicateNode "Pellet Position")
+                (ConceptNode "Right Square"))
+              (ExecutionLink
+                (SchemaNode "Stay"))
+              (EvaluationLink (stv 0.58 0.2)
+                (PredicateNode "Agent Position")
+                (ConceptNode "Left Square")))
+            (ExecutionLink
+              (SchemaNode "Go Right")))
           (ExecutionLink
-            (SchemaNode "Go Right") ; [51c7a48fd94d12d8][3]
-          ) ; [c29bf0559d1ad8ec][3]
-          (EvaluationLink (stv 0.495 0.2)
-            (PredicateNode "Agent Position") ; [3fdca752fd5e5335][3]
-            (ConceptNode "Right Square") ; [6dd382acb6aa376e][3]
-          ) ; [c9fcc2094e0150df][3]
-        ) ; [c7d4e3c83331c030][3]
+            (SchemaNode "Go Left")))
         (ExecutionLink
-          (SchemaNode "Eat") ; [3fe4e22345c3679f][3]
-        ) ; [9efce1dc8918c209][3]
-      ) ; [969510428e2996c2][3]
+          (SchemaNode "Stay")))
+      (EvaluationLink (stv 0.585 0.2)
+        (PredicateNode "Pellet Position")
+        (ConceptNode "Right Square")))
     '''
-    """
 
     # exp = read_from_file('sample_hypergraph_2_trunc')
 
-
-    scheme_eval(atomspace,exp)
-
+    scheme_eval(atomspace, pre_process_atoms(exp))
 
 def read_from_file(file_to_read):
     with open(file_to_read, 'r') as f:
         content = f.read()
     return content
 
-def atoms_exp():
+def pre_process_atoms(exp):
 
-    print(type(atomspace))
-    print('Printing atomspace\n---------')
-    for atom in atomspace:
+    # return exp
 
-        print(atom)
-        print(type(atom))
-        print('Atom type is {}'.format(atom.type_name))
-        print('==========')
-        try:
-            print(len(atom.out))
-            print(type(atom.out[0]))
-        except Exception as e:
-            print(e)
-            print('No outgoing set')
-        print('==========')
-        print('---------')
+    new_exp = ''
 
-        if atom.type_name == 'SLink':
-            print('SLink found')
-            count_sz_links(atom)
+    starting_indices_slinks = [m.start() for m in re.finditer('SLink', exp)]
+    starting_indices_zlinks = [m.start() for m in re.finditer('ZLink', exp)]
 
-        atomspace_2.add_atom(atom)
+    print('starting_indices_slinks\n{}'.format(starting_indices_slinks))
+    print('starting_indices_zlinks\n{}'.format(starting_indices_zlinks))
 
-    print('Number of atoms is',atomspace.size())
+    for i in range(len(starting_indices_zlinks)):
+        if i == 0:
+            print(starting_indices_zlinks[0])
+            # Count the number of its parent links
+            parent_count = 0
+            for p in starting_indices_slinks:
+                if p < starting_indices_zlinks[i]:
+                    parent_count += 1
+                else:
+                    break
+            print('parent_count = {} for zlink at index {}'.format(parent_count,starting_indices_zlinks[i]))
 
-    print_atomspace(atomspace_2)
+            # Get the index of the last closing brace of the top slink parent
+            # associated with this zlink
+            starting_indices_closing_braces = [m.start() for m in re.finditer('\)', exp[starting_indices_zlinks[0]:])]
+            index_last_closing_brace = starting_indices_closing_braces[parent_count+1]
+
+            # Form the new string
+            new_exp = exp[0:starting_indices_slinks[0]-1] + '(TimeNode "'+str(parent_count)+'")' + exp[starting_indices_zlinks[0]+4+1+parent_count+1:]
+            print(new_exp)
+
+
+
+
 
     exit(0)
+
+    return new_exp
+
 
 def count_sz_links(atom):
 
 
-
     return
-
-
-def print_atomspace(aspace):
-
-    print('\n************************************************\nPrinting atomspace {}\n'.format(get_argument_name()))
-    print('Type of atomsapce is {} \n'.format(type(aspace)))
-    for atom in aspace:
-        print(atom)
-        print(type(atom))
-        print('==========')
-        try:
-            print(type(atom.out[0]))
-        except:
-            print('No outgoing set')
-        print('==========')
-        print('---------')
-
-    print('Number of atoms is',atomspace.size())
-    print('************************************************')
-
-
-def get_argument_name():
-
-    stack = traceback.extract_stack()
-    filename, lineno, function_name, code = stack[-3]
-    vars_name = re.compile(r'\((.*?)\).*$').search(code).groups()[0]
-    return vars_name
 
 
 
@@ -198,8 +181,6 @@ def get_argument_name():
 if __name__ == "__main__":
 
     load_atoms()
-
-    atoms_exp()
 
     api = RESTAPI(atomspace)
     api.run(host=IP_ADDRESS, port=PORT)
