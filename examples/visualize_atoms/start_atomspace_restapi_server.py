@@ -139,25 +139,27 @@ def pre_process_atoms(exp):
     print('starting_indices_zlinks\n{}'.format(starting_indices_zlinks))
 
     for i in range(len(starting_indices_zlinks)):
-        if i == 0:
-            print(starting_indices_zlinks[0])
-            # Count the number of its parent links
-            parent_count = 0
-            for p in starting_indices_slinks:
-                if p < starting_indices_zlinks[i]:
-                    parent_count += 1
-                else:
-                    break
-            print('parent_count = {} for zlink at index {}'.format(parent_count,starting_indices_zlinks[i]))
 
-            # Get the index of the last closing brace of the top slink parent
-            # associated with this zlink
-            starting_indices_closing_braces = [m.start() for m in re.finditer('\)', exp[starting_indices_zlinks[0]:])]
-            index_last_closing_brace = starting_indices_closing_braces[parent_count+1]
+        print(starting_indices_zlinks[i])
+        # Count the number of its parent links
+        # Get the index of its preceding zlink
+        # index_preceding_zlink
 
-            # Form the new string
-            new_exp = exp[0:starting_indices_slinks[0]-1] + '(TimeNode "'+str(parent_count)+'")' + exp[starting_indices_zlinks[0]+4+1+parent_count+1:]
-            print(new_exp)
+        parent_count = 0
+        # for p in starting_indices_slinks:
+        #     if p < starting_indices_zlinks[i]:
+        #         parent_count += 1
+        #     else:
+        #         break
+        # print('parent_count = {} for zlink at index {}'.format(parent_count,starting_indices_zlinks[i]))
+        #
+        # # Get the index of the last closing brace of the top slink parent
+        # # associated with this zlink
+        # starting_indices_closing_braces = [m.start() for m in re.finditer('\)', exp[starting_indices_zlinks[0]:])]
+        #
+        # # Form the new string
+        # new_exp = exp[0:starting_indices_slinks[0]-1] + '(TimeNode "'+str(parent_count)+'")' + exp[starting_indices_zlinks[0]+4+1+parent_count+1:]
+        # print(new_exp)
 
 
 
