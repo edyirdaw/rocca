@@ -82,6 +82,7 @@ def load_atoms():
     '''
     """
 
+    # """
     exp = '''
     (BackPredictiveImplicationScopeLink
       (VariableSet)
@@ -119,9 +120,11 @@ def load_atoms():
         (PredicateNode "Pellet Position")
         (ConceptNode "Right Square")))
     '''
+    # """
 
     # exp = read_from_file('sample_hypergraph_2_trunc')
 
+    # scheme_eval(atomspace, exp)
     scheme_eval(atomspace, pre_process_atoms(exp))
 
 def read_from_file(file_to_read):
@@ -165,17 +168,16 @@ def pre_process_atoms(exp):
         # Form the new string
         len_szlinks = (starting_indices_zlinks[i]+4+1+parent_count+1-1) - (index_parent_slink-1) + 1
         len_time_node = len('(TimeNode "'+str(parent_count)+'")')
-        exp = exp[0:index_parent_slink-1] + '(TimeNode "'+str(parent_count)+'")' + '`'*(len_szlinks-len_time_node) + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
+        exp = exp[0:index_parent_slink-1] + '`1meNode "'+str(parent_count)+'"`2' + '`'*(len_szlinks-len_time_node) + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
 
-
-    exp = exp.replace('`',"")
+    exp = exp.replace('`1','(SLink (ZLink (Ti').replace('`2',')))').replace('`', "")
     print(exp)
 
 
 
 
 
-    exit(0)
+    # exit(0)
 
     return exp
 
