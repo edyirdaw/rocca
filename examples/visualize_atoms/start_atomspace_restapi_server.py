@@ -89,14 +89,17 @@ def load_atoms():
         (ZLink))
       (BackSequentialAndLink
         (SLink
-         (Slink        
+         (SLink        
           (ZLink)))
         (BackSequentialAndLink
           (SLink
             (ZLink))
           (BackSequentialAndLink
-            (SLink
-              (ZLink))
+            (SLink 
+             (SLink
+              (SLink
+               (SLink
+                 (ZLink)))))
             (AndLink (stv 0.085 0.2)
               (EvaluationLink (stv 0.585 0.2)
                 (PredicateNode "Pellet Position")
@@ -135,31 +138,35 @@ def pre_process_atoms(exp):
     starting_indices_slinks = [m.start() for m in re.finditer('SLink', exp)]
     starting_indices_zlinks = [m.start() for m in re.finditer('ZLink', exp)]
 
+    print('-------------------')
     print('starting_indices_slinks\n{}'.format(starting_indices_slinks))
     print('starting_indices_zlinks\n{}'.format(starting_indices_zlinks))
+    print('-------------------')
 
     for i in range(len(starting_indices_zlinks)):
 
-        print(starting_indices_zlinks[i])
-        # Count the number of its parent links
-        # Get the index of its preceding zlink
-        # index_preceding_zlink
+        print('current zlink starts at {}'.format(starting_indices_zlinks[i]))
 
+        # Get the index of its preceding zlink
+        index_preceding_zlink = -1 if i==0 else starting_indices_zlinks[i-1]
+        print('index_preceding_zlink={}'.format(index_preceding_zlink))
+
+        # Count the number of its parent links and the index of the start of its parent slink
         parent_count = 0
-        # for p in starting_indices_slinks:
-        #     if p < starting_indices_zlinks[i]:
-        #         parent_count += 1
-        #     else:
-        #         break
-        # print('parent_count = {} for zlink at index {}'.format(parent_count,starting_indices_zlinks[i]))
-        #
-        # # Get the index of the last closing brace of the top slink parent
-        # # associated with this zlink
-        # starting_indices_closing_braces = [m.start() for m in re.finditer('\)', exp[starting_indices_zlinks[0]:])]
-        #
-        # # Form the new string
-        # new_exp = exp[0:starting_indices_slinks[0]-1] + '(TimeNode "'+str(parent_count)+'")' + exp[starting_indices_zlinks[0]+4+1+parent_count+1:]
-        # print(new_exp)
+        index_parent_slink = 0
+        for p in starting_indices_slinks:
+            if  p < starting_indices_zlinks[i] and p > index_preceding_zlink:
+                parent_count += 1
+                if parent_count == 1:
+                    index_parent_slink = p
+            if p > starting_indices_zlinks[i]:
+                break
+        print('parent_count = {} for zlink at index {}'.format(parent_count,starting_indices_zlinks[i]))
+        print('index_parent_slink = {} for zlink at index {}'.format(index_parent_slink,starting_indices_zlinks[i]))
+
+        # Form the new string
+        new_exp = exp[0:index_parent_slink-1] + '(TimeNode "'+str(parent_count)+'")' + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
+        print(new_exp)
 
 
 
