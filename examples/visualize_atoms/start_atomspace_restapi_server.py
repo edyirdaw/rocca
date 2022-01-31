@@ -168,9 +168,9 @@ def pre_process_atoms(exp):
         # Form the new string
         len_szlinks = (starting_indices_zlinks[i]+4+1+parent_count+1-1) - (index_parent_slink-1) + 1
         len_time_node = len('(TimeNode "'+str(parent_count)+'")')
-        exp = exp[0:index_parent_slink-1] + '`1meNode "'+str(parent_count)+'"`2' + '`'*(len_szlinks-len_time_node) + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
+        exp = exp[0:index_parent_slink-1] + '(TimeNode "'+str(parent_count)+'")' + '`'*(len_szlinks-len_time_node) + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
 
-    exp = exp.replace('`1','(SLink (ZLink (Ti').replace('`2',')))').replace('`', "")
+    exp = exp.replace('`', "")
     print(exp)
 
 
