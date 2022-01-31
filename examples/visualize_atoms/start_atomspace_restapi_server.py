@@ -133,8 +133,6 @@ def pre_process_atoms(exp):
 
     # return exp
 
-    new_exp = ''
-
     starting_indices_slinks = [m.start() for m in re.finditer('SLink', exp)]
     starting_indices_zlinks = [m.start() for m in re.finditer('ZLink', exp)]
 
@@ -165,8 +163,13 @@ def pre_process_atoms(exp):
         print('index_parent_slink = {} for zlink at index {}'.format(index_parent_slink,starting_indices_zlinks[i]))
 
         # Form the new string
-        new_exp = exp[0:index_parent_slink-1] + '(TimeNode "'+str(parent_count)+'")' + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
-        print(new_exp)
+        len_szlinks = (starting_indices_zlinks[i]+4+1+parent_count+1-1) - (index_parent_slink-1) + 1
+        len_time_node = len('(TimeNode "'+str(parent_count)+'")')
+        exp = exp[0:index_parent_slink-1] + '(TimeNode "'+str(parent_count)+'")' + '`'*(len_szlinks-len_time_node) + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
+
+
+    exp = exp.replace('`',"")
+    print(exp)
 
 
 
@@ -174,7 +177,7 @@ def pre_process_atoms(exp):
 
     exit(0)
 
-    return new_exp
+    return exp
 
 
 def count_sz_links(atom):
