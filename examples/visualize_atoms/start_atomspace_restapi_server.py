@@ -136,6 +136,11 @@ def pre_process_atoms(exp):
 
     # return exp
 
+    exp = re.sub(r';.*\n', '\n', exp, re.MULTILINE)
+    exp = re.sub(r'\(ZLink\s+','(ZLink',exp)
+    exp = re.sub(r'\)\s+\)','))',exp)
+    exp = re.sub(r'\)\s+\)','))',exp)
+
     starting_indices_slinks = [m.start() for m in re.finditer('SLink', exp)]
     starting_indices_zlinks = [m.start() for m in re.finditer('ZLink', exp)]
 

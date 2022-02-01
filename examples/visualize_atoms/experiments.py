@@ -5,33 +5,46 @@ import re
 
 def reg_exp():
 
-    p_1 = re.compile(';.*\\n')
     exp = ';;an\n'
 
-    m_i = p_1.finditer(exp)
+    m_i = re.finditer(r';.*\n',exp,re.MULTILINE)
     print(m_i)
 
     for m in m_i:
         print(m.start())
         print(m.end())
         print(exp[m.start():m.end()])
+    print('Finished')
+
+def reg_exp_1_2():
+
+    exp = 'cccc\nccc'
+    print(exp)
+    # exp = re.sub(r'(\s)+','d',exp,re.MULTILINE)
+    exp = re.sub(r'\n','d',exp,re.MULTILINE)
+    print(exp)
+
+    print('Finished')
+
+
 
 
 def reg_ex_2():
 
-    p_1 = re.compile(';.*\\n')
-    p_2 = re.compile('\(ZLink\\s*\)')
-    p_3 = re.compile('\)\\s*\)')
     exp = '''
         (BackSequentialAndLink
             (SLink
               (SLink
                (SLink
+                (SLink
+                 (SLink
                (ZLink
-              ) ; [800fbffffffe8ce4][3]
-            ) ; [da5f815ba9d4009f][3]
+               ) ; [800fbffffffe8ce4][3]
+             ) ; [da5f815ba9d4009f][3]
+           ) ; [da5f815ba9d4009f][3]
           ) ; [da5f815ba9d4009f][3]
-          ) ; [da5f815ba9d4009f][3]
+           ) ; [da5f815ba9d4009f][3] 
+             ) ; [da5f815ba9d4009f][3]
             (AndLink (stv 0.02 0.2)
               (EvaluationLink (stv 0.39 0.2)
                 (PredicateNode "Pellet Position") ; [56e6ab0f525cb504][3]
@@ -60,13 +73,11 @@ def reg_ex_2():
     #     print(m.end())
     #     print(exp[m.start():m.end()])
 
-    new_str = p_1.sub('\n',exp)
+    exp = re.sub(r';.*\n','\n',exp)
     # print('new_str========================')
     # print(new_str)
-    exp = new_str
     print('exp========================')
     print(exp)
-
 
     print('p_2-----------------------')
 
@@ -77,13 +88,11 @@ def reg_ex_2():
     #     print(m.end())
     #     print(exp[m.start():m.end()])
 
-    new_str = p_2.sub('(ZLink)',exp)
-    # print(new_str)
+    exp = re.sub(r'\(ZLink\s+','(ZLink',exp)
 
-    exp = new_str
+
     print('exp========================')
     print(exp)
-
 
     print('p_3-----------------------')
 
@@ -94,34 +103,16 @@ def reg_ex_2():
     #     print(m.end())
     #     print(exp[m.start():m.end()])
 
-    while(True):
-        new_str = p_3.sub('))',exp)
-        if exp == new_str:
-            break
-        else:
-            exp = new_str
-
+    exp = re.sub(r'\)\s+\)','))',exp)
     print('exp========================')
     print(exp)
-    while(True):
-        new_str = p_3.sub('))',exp)
-        if exp == new_str:
-            break
-        else:
-            exp = new_str
+    exp = re.sub(r'\)\s+\)','))',exp)
+    # exp = re.sub(r'\)\s*\)','))',exp)
+    # exp = re.sub(r'\)\s*\)','))',exp)
 
     print('exp========================')
     print(exp)
 
-    while(True):
-        new_str = p_3.sub('))',exp)
-        if exp == new_str:
-            break
-        else:
-            exp = new_str
-
-    print('exp========================')
-    print(exp)
 
 
 
@@ -129,4 +120,5 @@ def reg_ex_2():
 if __name__ == '__main__':
 
     # reg_exp()
+    # reg_exp_1_2()
     reg_ex_2()
