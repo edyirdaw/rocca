@@ -55,7 +55,7 @@ def load_atoms():
     '''
     """
 
-    """
+    # """
     exp = '''
     (BackSequentialAndLink
         (SLink
@@ -80,10 +80,10 @@ def load_atoms():
         ) ; [9efce1dc8918c209][3]
       ) ; [969510428e2996c2][3]
     '''
-    """
+    # """
 
     # """
-    exp = '''
+    exp_2 = '''
     (BackPredictiveImplicationScopeLink
       (VariableSet)
       (SLink
@@ -126,6 +126,7 @@ def load_atoms():
 
     # scheme_eval(atomspace, exp)
     scheme_eval(atomspace, pre_process_atoms(exp))
+    scheme_eval(atomspace, pre_process_atoms(exp_2))
 
 def read_from_file(file_to_read):
     with open(file_to_read, 'r') as f:
