@@ -122,11 +122,11 @@ def load_atoms():
     '''
     # """
 
-    # exp = read_from_file('sample_hypergraph_2_trunc')
+    exp = read_from_file('sample_hypergraph_2_trunc')
 
     # scheme_eval(atomspace, exp)
     scheme_eval(atomspace, pre_process_atoms(exp))
-    scheme_eval(atomspace, pre_process_atoms(exp_2))
+    # scheme_eval(atomspace, pre_process_atoms(exp_2))
 
 def read_from_file(file_to_read):
     with open(file_to_read, 'r') as f:
@@ -135,8 +135,11 @@ def read_from_file(file_to_read):
 
 def pre_process_atoms(exp):
 
-    # return exp
 
+    # Processing empty variableset
+    exp = re.sub(r'\(VariableSet\)', '', exp)
+
+    # Processing szlinks
     exp = re.sub(r';.*\n', '\n', exp, re.MULTILINE)
     exp = re.sub(r'\(ZLink\s+','(ZLink',exp)
     exp = re.sub(r'\)\s+\)','))',exp)

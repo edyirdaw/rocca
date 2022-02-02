@@ -24,6 +24,11 @@ def reg_exp_1_2():
     exp = re.sub(r'\n','d',exp,re.MULTILINE)
     print(exp)
 
+    exp = 'things'
+    print(exp)
+    exp = re.sub(r'ing', '', exp)
+    print(exp)
+
     print('Finished')
 
 
