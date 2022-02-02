@@ -122,7 +122,7 @@ def load_atoms():
     '''
     # """
 
-    exp = read_from_file('sample_hypergraph_2_trunc')
+    exp = read_from_file('sample_hypergraph_2_32')
 
     # scheme_eval(atomspace, exp)
     scheme_eval(atomspace, pre_process_atoms(exp))
@@ -138,9 +138,10 @@ def pre_process_atoms(exp):
 
     # Processing empty variableset
     exp = re.sub(r'\(VariableSet\)', '', exp)
+    # exp = re.sub(r'back', '', exp, flags=re.IGNORECASE)
 
     # Processing szlinks
-    exp = re.sub(r';.*\n', '\n', exp, re.MULTILINE)
+    exp = re.sub(r';.*\n', '\n', exp, flags=re.MULTILINE)
     exp = re.sub(r'\(ZLink\s+','(ZLink',exp)
     exp = re.sub(r'\)\s+\)','))',exp)
     exp = re.sub(r'\)\s+\)','))',exp)

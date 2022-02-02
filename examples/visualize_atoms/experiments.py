@@ -21,12 +21,12 @@ def reg_exp_1_2():
     exp = 'cccc\nccc'
     print(exp)
     # exp = re.sub(r'(\s)+','d',exp,re.MULTILINE)
-    exp = re.sub(r'\n','d',exp,re.MULTILINE)
+    exp = re.sub(r'\n','d',exp,flags=re.MULTILINE)
     print(exp)
 
-    exp = 'things'
+    exp = 'thIngs'
     print(exp)
-    exp = re.sub(r'ing', '', exp)
+    exp = re.sub(r'ing', '', exp,flags=re.IGNORECASE)
     print(exp)
 
     print('Finished')
@@ -78,7 +78,7 @@ def reg_ex_2():
     #     print(m.end())
     #     print(exp[m.start():m.end()])
 
-    exp = re.sub(r';.*\n','\n',exp)
+    exp = re.sub(r';.*\n','\n',exp,flags=re.MULTILINE)
     # print('new_str========================')
     # print(new_str)
     print('exp========================')
