@@ -4,6 +4,8 @@ import re
 from requests import post
 import json
 
+from start_atomspace_restapi_server import load_atoms_return_scheme_command
+
 
 def reg_exp():
 
@@ -119,18 +121,13 @@ def reg_ex_2():
     print(exp)
 
 
-def post_to_restapi():
+def post_to_restapi_atoms_endpoint():
 
-    # Define the API Endpoint - replace 127.0.0.1 with the server IP address if
-    # necessary
     IP_ADDRESS = '127.0.0.1'
     PORT = '5000'
     uri = 'http://' + IP_ADDRESS + ':' + PORT + '/api/v1.1/'
     headers = {'content-type': 'application/json'}
 
-    ####################################################################
-    # Example POST and GET requests to create and read nodes and links #
-    ####################################################################
     # POST a new node
     truthvalue = {'type': 'simple', 'details': {'strength': 0.08, 'count': 0.2}}
     atom = {'type': 'ConceptNode', 'name': 'new_atom', 'truthvalue': truthvalue}
@@ -139,10 +136,24 @@ def post_to_restapi():
     post_result = post_response.json()
     print(post_result)
 
+def post_to_restapi_scheme_endpoint():
+
+    IP_ADDRESS = '127.0.0.1'
+    PORT = '5000'
+    uri = 'http://' + IP_ADDRESS + ':' + PORT + '/api/v1.1/'
+    headers = {'content-type': 'application/json'}
+
+    # Execute scheme command
+    # command = {'command': '(ConceptNode "cat")'}
+    command = {'command': load_atoms_return_scheme_command()}
+    post_response = post(uri + 'scheme', data=json.dumps(command), headers=headers)
+    post_result = post_response.json()
+    print(post_result)
 
 if __name__ == '__main__':
 
     # reg_exp()
     # reg_exp_1_2()
     # reg_ex_2()
-    post_to_restapi()
+    # post_to_restapi_atoms_endpoint()
+    post_to_restapi_scheme_endpoint()
