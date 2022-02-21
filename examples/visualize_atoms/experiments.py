@@ -1,6 +1,8 @@
 # Experiments
 
 import re
+from requests import post
+import json
 
 
 def reg_exp():
@@ -30,8 +32,6 @@ def reg_exp_1_2():
     print(exp)
 
     print('Finished')
-
-
 
 
 def reg_ex_2():
@@ -119,11 +119,30 @@ def reg_ex_2():
     print(exp)
 
 
+def post_to_restapi():
 
+    # Define the API Endpoint - replace 127.0.0.1 with the server IP address if
+    # necessary
+    IP_ADDRESS = '127.0.0.1'
+    PORT = '5000'
+    uri = 'http://' + IP_ADDRESS + ':' + PORT + '/api/v1.1/'
+    headers = {'content-type': 'application/json'}
+
+    ####################################################################
+    # Example POST and GET requests to create and read nodes and links #
+    ####################################################################
+    # POST a new node
+    truthvalue = {'type': 'simple', 'details': {'strength': 0.08, 'count': 0.2}}
+    atom = {'type': 'ConceptNode', 'name': 'new_atom', 'truthvalue': truthvalue}
+    post_response = post(uri + 'atoms', data=json.dumps(atom), headers=headers)
+    print(json.dumps(atom))
+    post_result = post_response.json()
+    print(post_result)
 
 
 if __name__ == '__main__':
 
     # reg_exp()
     # reg_exp_1_2()
-    reg_ex_2()
+    # reg_ex_2()
+    post_to_restapi()

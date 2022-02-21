@@ -127,8 +127,9 @@ def load_atoms():
     # exp = read_from_file('sample_hypergraph_2_1531')
 
     # scheme_eval(atomspace, exp)
-    # scheme_eval(atomspace, pre_process_atoms(exp))
-    scheme_eval(atomspace, pre_process_atoms(exp_2))
+    scheme_eval(atomspace, pre_process_atoms(exp))
+    # scheme_eval(atomspace, pre_process_atoms(exp_2))
+
 
 def read_from_file(file_to_read):
     with open(file_to_read, 'r') as f:
