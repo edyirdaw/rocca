@@ -143,6 +143,7 @@ def load_atoms_2():
 
 def load_atoms_return_scheme_command():
 
+    # exp = read_from_file('sample_hypergraph_2_debug')
     exp = read_from_file('sample_hypergraph_2_30')
     # exp = read_from_file('sample_hypergraph_2_32')
     # exp = read_from_file('sample_hypergraph_2_106')
