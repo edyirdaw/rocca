@@ -144,6 +144,7 @@ def load_atoms_2():
 def load_atoms_return_scheme_command():
 
     # exp = read_from_file('sample_hypergraph_2_debug')
+    # exp = read_from_file('sample_hypergraph_debug_variableset')
     exp = read_from_file('sample_hypergraph_2_30')
     # exp = read_from_file('sample_hypergraph_2_32')
     # exp = read_from_file('sample_hypergraph_2_106')
@@ -165,6 +166,7 @@ def pre_process_atoms(exp):
 
     # Processing empty variableset
     exp = re.sub(r'\(VariableSet\)', '', exp)
+    exp = re.sub(r'\(VariableSet\s*\)', '', exp)
     # exp = re.sub(r'back', '', exp, flags=re.IGNORECASE)
 
     # Processing szlinks
