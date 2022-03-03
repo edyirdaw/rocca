@@ -145,11 +145,13 @@ def load_atoms_return_scheme_command():
 
     # exp = read_from_file('sample_hypergraph_2_debug')
     # exp = read_from_file('sample_hypergraph_debug_variableset')
-    exp = read_from_file('sample_hypergraph_2_30')
-    # exp = read_from_file('sample_hypergraph_2_32')
+    # exp = read_from_file('sample_hypergraph_2_30')
+    exp = read_from_file('sample_hypergraph_2_32')
     # exp = read_from_file('sample_hypergraph_2_106')
     # exp = read_from_file('sample_hypergraph_2_28_bottom')
     # exp = read_from_file('sample_hypergraph_2_1531')
+    # exp = read_from_file('sample_hypergraph_percepta_debug')
+    # exp = read_from_file('sample_hypergraph_percepta')
 
     # scheme_eval(atomspace, exp)
     return pre_process_atoms(exp)
