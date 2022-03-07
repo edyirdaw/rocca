@@ -177,6 +177,9 @@ def pre_process_atoms(exp):
     exp = re.sub(r'\)\s+\)','))',exp)
     exp = re.sub(r'\)\s+\)','))',exp)
 
+    # with open('exp_1','w') as f:
+    #     f.write(exp)
+
     starting_indices_slinks = [m.start() for m in re.finditer('SLink', exp)]
     starting_indices_zlinks = [m.start() for m in re.finditer('ZLink', exp)]
 
@@ -207,9 +210,15 @@ def pre_process_atoms(exp):
         print('index_parent_slink = {} for zlink at index {}'.format(index_parent_slink,starting_indices_zlinks[i]))
 
         # Form the new string
-        len_szlinks = (starting_indices_zlinks[i]+4+1+parent_count+1-1) - (index_parent_slink-1) + 1
-        len_time_node = len('(TimeNode "'+str(parent_count)+'")')
-        exp = exp[0:index_parent_slink-1] + '(TimeNode "'+str(parent_count)+'")' + '`'*(len_szlinks-len_time_node) + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
+
+        if parent_count == 0:
+            exp = exp[0:starting_indices_zlinks[i]-1] + '(TimeNode "'+str(parent_count)+'")' + exp[starting_indices_zlinks[i]+6:]
+        else:
+            len_szlinks = (starting_indices_zlinks[i]+4+1+parent_count+1-1) - (index_parent_slink-1) + 1
+            len_time_node = len('(TimeNode "'+str(parent_count)+'")')
+            # "`" is added and removed later to keep the length of the string exp the same while other szlinks are processed.
+            # This will keep previously calculated sz indices valid
+            exp = exp[0:index_parent_slink-1] + '(TimeNode "'+str(parent_count)+'")' + '`'*(len_szlinks-len_time_node) + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
 
     exp = exp.replace('`', "")
     print(exp)
