@@ -212,7 +212,9 @@ def pre_process_atoms(exp):
         # Form the new string
 
         if parent_count == 0:
-            exp = exp[0:starting_indices_zlinks[i]-1] + '(TimeNode "'+str(parent_count)+'")' + exp[starting_indices_zlinks[i]+6:]
+            # ='s are added and removed later to keep the length of the string exp the same while other szlinks are processed.
+            # This will keep previously calculated sz indices valid
+            exp = exp[0:starting_indices_zlinks[i]-1] + '='*7 + exp[starting_indices_zlinks[i]+6:]
         else:
             len_szlinks = (starting_indices_zlinks[i]+4+1+parent_count+1-1) - (index_parent_slink-1) + 1
             len_time_node = len('(TimeNode "'+str(parent_count)+'")')
@@ -220,6 +222,7 @@ def pre_process_atoms(exp):
             # This will keep previously calculated sz indices valid
             exp = exp[0:index_parent_slink-1] + '(TimeNode "'+str(parent_count)+'")' + '`'*(len_szlinks-len_time_node) + exp[starting_indices_zlinks[i]+4+1+parent_count+1:]
 
+    exp = exp.replace('='*7, '(TimeNode "0")')
     exp = exp.replace('`', "")
     print(exp)
     with open('exp','w') as f:
@@ -234,10 +237,6 @@ def pre_process_atoms(exp):
     return exp
 
 
-def count_sz_links(atom):
-
-
-    return
 
 
 
